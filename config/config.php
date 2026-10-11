@@ -6,7 +6,7 @@ const DB_USER = 'root';
 const DB_PASS = '';
 
 // Laisser vide si le site est à la racine du domaine, sinon ex. '/immo-guinee'
-const BASE_URL = '';
+const BASE_URL = '/immo_guinee';
 
 const SITE_NOM = 'Kènè';   // nom provisoire, à remplacer
 const UPLOAD_DIR = __DIR__ . '/../uploads/annonces/';
