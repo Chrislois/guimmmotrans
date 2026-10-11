@@ -1,0 +1,6 @@
+# Les images uploadées ne doivent jamais être exécutées comme du code
+php_flag engine off
+RemoveHandler .php .phtml .php3 .php5
+<FilesMatch "\.(php|phtml|php3|php5|phar)$">
+  Require all denied
+</FilesMatch>
