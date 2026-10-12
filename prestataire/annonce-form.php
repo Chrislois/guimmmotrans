@@ -64,13 +64,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $premiere = !$images;
         foreach ($nouveaux as [$tmp, $nom]) {
-            if (!move_uploaded_file($tmp, UPLOAD_DIR . $nom)) continue;
+            if (!move_uploaded_file($tmp, UPLOAD_DIR . $nom)) { $pdo->rollBack(); $err = "Impossible d'enregistrer les photos : vérifiez que le dossier uploads/annonces existe."; break; }
             $pdo->prepare('INSERT INTO annonce_images (annonce_id,chemin,principale) VALUES (?,?,?)')->execute([$id, $nom, $premiere ? 1 : 0]);
             $premiere = false;
         }
-        $pdo->commit();
-        flash('Annonce enregistrée. Elle sera visible après validation par l\'équipe.');
-        redirect('prestataire/');
+        if (!$err) {
+            $pdo->commit();
+            flash('Annonce enregistrée. Elle sera visible après validation par l\'équipe.');
+            redirect('prestataire/');
+        }
     }
 }
 page_header($a ? "Modifier l'annonce" : 'Nouvelle annonce', 'dash');

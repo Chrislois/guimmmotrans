@@ -47,10 +47,20 @@ page_header($a['titre']);
 <div class="wrap detail">
   <?php if ($a['statut'] !== 'publiee'): ?><div class="flash flash-err">Cette annonce n'est pas publique (statut : <?= e(STATUTS_ANNONCE[$a['statut']]) ?>).</div><?php endif; ?>
   <div class="galerie">
-    <?php if ($imgs): foreach (array_slice($imgs, 0, 5) as $i => $c): ?>
-      <img class="<?= $i === 0 ? 'g-main' : '' ?>" src="<?= e(photo_url($c)) ?>" alt="Photo <?= $i + 1 ?> de <?= e($a['titre']) ?>">
+    <?php if ($imgs): $vis = array_slice($imgs, 0, 5); foreach ($vis as $i => $c): $alt = 'Photo ' . ($i + 1) . ' de ' . $a['titre']; ?>
+      <figure class="g-item <?= $i === 0 ? 'g-main' : '' ?>">
+        <img src="<?= e(photo_url($c)) ?>" alt="<?= e($alt) ?>"
+             onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'img-erreur',textContent:'Image introuvable : '+this.getAttribute('src')}))">
+        <?php if ($i === count($vis) - 1 && count($imgs) > count($vis)): ?><span class="g-more">+<?= count($imgs) - count($vis) ?> photos</span><?php endif; ?>
+        <button type="button" class="expand-btn zoomable" data-group="galerie" data-full="<?= e(photo_url($c)) ?>" data-alt="<?= e($alt) ?>" aria-label="Agrandir la photo <?= $i + 1 ?>" title="Agrandir">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </button>
+      </figure>
+    <?php endforeach; foreach (array_slice($imgs, 5) as $i => $c): ?>
+      <i hidden class="zoomable" data-group="galerie" data-full="<?= e(photo_url($c)) ?>" data-alt="<?= e('Photo ' . ($i + 6) . ' de ' . $a['titre']) ?>"></i>
     <?php endforeach; else: ?><div class="ph ph-lg" aria-hidden="true"></div><?php endif; ?>
   </div>
+  <?php if ($imgs): ?><script src="<?= url('assets/js/lightbox.js') ?>" defer></script><?php endif; ?>
 
   <div class="detail-cols">
     <article>

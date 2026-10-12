@@ -8,6 +8,6 @@ const DB_PASS = '';
 // Laisser vide si le site est à la racine du domaine, sinon ex. '/immo-guinee'
 const BASE_URL = '/immo_guinee';
 
-const SITE_NOM = 'Kènè';   // nom provisoire, à remplacer
+const SITE_NOM = 'Guinée Immo Trans';   // nom provisoire, à remplacer
 const UPLOAD_DIR = __DIR__ . '/../uploads/annonces/';
 const UPLOAD_URL = 'uploads/annonces/';
